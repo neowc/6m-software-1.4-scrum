@@ -73,3 +73,60 @@ class Permission{
 }
 
 // Add code here
+class Document extends Permission {
+    // private variables
+    #content;
+  
+    constructor(role, operation, content) {
+      // Add code here
+      super(role, operation);
+      this.#content = content;
+    }
+  
+    //function
+    process() {
+      if (this.check()) {
+        console.log(`content: \"${this.#content}\" is Allowed.`);
+      } else {
+        console.log(`content: \"${this.#content}\" is Blocked.`);
+      }
+    }
+  
+    scenario(scn) {
+      console.log("Scenario", scn);
+  
+      switch (scn) {
+        case 1:
+          const x = new Document(
+            Permission.RolesConst.EDITOR,
+            Permission.OperationsConst.UPDATE,
+            "Hello content"
+          );
+          x.process(); // "Allowed"
+          break;
+        case 2:
+          const y = new Document(
+            Permission.RolesConst.READER,
+            Permission.OperationsConst.UPDATE,
+            "Hello content"
+          );
+          y.process(); // "Blocked"
+          break;
+        case 3:
+          const z = new Document(
+            Permission.RolesConst.OWNER,
+            Permission.OperationsConst.DELETE,
+            "Hello content"
+          );
+          z.process(); // "Allowed"
+          break;
+        default:
+          console.log("Scenario not found.");
+      }
+    }
+}
+  
+let myDoc = new Document();
+myDoc.scenario(1);
+myDoc.scenario(2);
+myDoc.scenario(3);
